@@ -1,0 +1,132 @@
+run:
+  timeout: 2m
+  issues-exit-code: 1
+  tests: false
+  skip-dirs:
+    - doc
+    - vendor
+    - resources
+    - build
+    - dist
+    - test
+  skip-dirs-use-default: true
+  skip-files:
+    - golanci.yml
+  modules-download-mode: vendor
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+linters-settings:
+  errcheck:
+    check-type-assertions: false
+    check-blank: false
+  funlen:
+    lines: 100
+    statements: 50
+  govet:
+    check-shadowing: true
+    settings:
+      printf:
+        funcs:
+          - (github.com/golangci/golangci-lint/pkg/logutils.Log).Infof
+          - (github.com/golangci/golangci-lint/pkg/logutils.Log).Warnf
+          - (github.com/golangci/golangci-lint/pkg/logutils.Log).Errorf
+          - (github.com/golangci/golangci-lint/pkg/logutils.Log).Fatalf
+    enable-all: true
+  golint:
+    min-confidence: 0.8
+  gofmt:
+    simplify: true
+  goimports:
+
+  gocyclo:
+    min-complexity: 20
+  gocognit:
+    min-complexity: 20
+  maligned:
+    suggest-new: true
+  dupl:
+    threshold: 100
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+  misspell:
+    locale: US
+  lll:
+    line-length: 120
+    tab-width: 1
+  unused:
+    check-exported: false
+  unparam:
+    check-exported: false
+  nakedret:
+    max-func-lines: 30
+  prealloc:
+    simple: true
+    range-loops: true
+    for-loops: false
+  gocritic:
+    enabled-tags:
+      - performance
+    settings:
+      captLocal:
+        paramsOnly: true
+      rangeValCopy:
+        sizeThreshold: 32
+  godox:
+    keywords:
+      - NOTE
+      - OPTIMIZE
+      - HACK
+  dogsled:
+    max-blank-identifiers: 2
+  whitespace:
+    multi-if: false
+    multi-func: false
+  wsl:
+    strict-append: true
+    allow-assign-and-call: true
+    allow-multiline-assign: true
+    allow-case-traling-whitespace: true
+    allow-cuddle-declarations: false
+
+linters:
+  enable-all: true
+  disable:
+    - gochecknoglobals
+    - dupl
+    - gomnd
+    - wsl
+    - godot
+    - goerr113
+    - nlreturn
+    - gofumpt
+    - gci
+  fast: false
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+    - text: ST1000
+      linters:
+        - stylecheck
+    - text: G304
+      linters:
+        - gosec
+    - text: G302
+      linters:
+        - gosec
+    - text: G301
+      linters:
+        - gosec
+  exclude-use-default: false
+  new: false
+  max-same-issues: 10

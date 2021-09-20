@@ -1,0 +1,7 @@
+.idea
+.private
+dist
+build
+test
+test_report
+vendor
